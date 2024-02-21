@@ -48,8 +48,11 @@ export async function POST(request) {
   }
 }
 export async function DELETE(request) {
+  const session = await getServerSession(options);
+  const userEmail = session.user.email;
+  console.log(userEmail);
   try {
-    await Todo.deleteMany({});
+    await Todo.deleteMany({email: userEmail});
     return NextResponse.json({ msg: "success", success: true });
   } catch (error) {
     return NextResponse.json(
