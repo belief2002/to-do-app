@@ -75,8 +75,26 @@ const Todos = () => {
     await axios.get("/api/todos").then((response) => {
       const datas = response.data.todos;
       setTodos(datas);
-    });
+    });    
   }
+  async function addTodoKey(e){
+    console.log(e.key);
+    if(e.key=="Enter"){
+      setInputText("");
+      addTodo();
+    }
+
+  }
+  async function updateTodoKey(e){
+    console.log(e.key);
+    if(e.key=="Enter"){
+      // setInputText("");
+      updateTodo();
+    }
+
+  }
+
+
 
   if (editMode) {
     return (
@@ -95,6 +113,7 @@ const Todos = () => {
             onChange={(e) => {
               setEditTodoInfo({ ...editTodoInfo, desc: e.target.value });
             }}
+            onKeyUp={(e) => {updateTodoKey(e);}}
           />
         </div>
         <div className="flex gap-2">
@@ -131,6 +150,7 @@ const Todos = () => {
           placeholder="Enter your task"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
+          onKeyUp={(e) => {addTodoKey(e);}}
         />
         <button
           className="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600"
@@ -155,7 +175,7 @@ const Todos = () => {
               <input
                 type="checkbox"
                 checked={todos["completed"]}
-                onChange={() => {}}
+                onChange={() => {}}                
               />
               <div>{todos["desc"]}</div>
             </div>
