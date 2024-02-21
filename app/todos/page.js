@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -8,23 +10,30 @@ const Todos = () => {
   const [inputText, setInputText] = useState("");
   const [editMode, setEditMode] = useState(false);
 
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callback=/todos");
+    },
+  });
+  // console.log(session);
   useEffect(() => {
+    // console.log("email::", emailch);
+
     axios.get("/api/todos").then((response) => {
-      console.log("Client fetch", response);
+      // console.log("Client fetch", response);
       const datas = response.data.todos;
       setTodos(datas);
-      console.log("Datas", datas);
+      // console.log("Datas", datas);
     });
   }, []);
 
   async function addTodo() {
-    const data = {
-      desc: inputText,
-    };
     const response = await axios.post("/api/todos", {
       desc: inputText,
+      email: session?.user?.email,
     });
-    console.log("Response post" + response);
+    // console.log("Response post" + response);
     await axios.get("/api/todos").then((response) => {
       const datas = response.data.todos;
       setTodos(datas);
@@ -33,7 +42,7 @@ const Todos = () => {
   }
   async function clearTodo() {
     await axios.delete("/api/todos").then((response) => {
-      console.log("delete success");
+      console.log("delete ALL success");
     });
     await axios.get("/api/todos").then((response) => {
       const datas = response.data.todos;
@@ -41,7 +50,6 @@ const Todos = () => {
     });
   }
   async function deleteTodo(id) {
-
     await axios.delete(`/api/todos/${id}`).then((response) => {
       console.log("delete success");
     });
@@ -56,7 +64,6 @@ const Todos = () => {
     setEditTodoInfo(todo);
   }
   async function updateTodo() {
-    
     const data = {
       desc: editTodoInfo.desc,
       completed: editTodoInfo.completed,
@@ -69,14 +76,13 @@ const Todos = () => {
       const datas = response.data.todos;
       setTodos(datas);
     });
-  
   }
 
   if (editMode) {
     return (
       <div
         id={editTodoInfo.id}
-        className="flex flex-col items-center pt-8 gap-8 h-full bg-violet-100"
+        className="flex flex-col items-center  pt-8 gap-8 h-full"
       >
         <div className=" text-2xl">Edit Todo</div>
         <div className="flex gap-2 ">
@@ -105,7 +111,7 @@ const Todos = () => {
           />
         </div>
         <button
-          className=" bg-gradient-to-r from-blue-500 to-green-500 text-xl rounded-md px-2 font-normal text-gray-200 hover:bg-green-600"
+          className=" bg-green-500 text-xl rounded-md px-2 font-normal text-white hover:bg-green-600"
           onClick={() => {
             updateTodo();
           }}
@@ -116,7 +122,7 @@ const Todos = () => {
     );
   }
   return (
-    <div className="flex flex-col items-center pt-8 gap-8 bg-violet-100">
+    <div className="flex flex-col items-center pt-8 gap-8">
       <div className="text-2xl font-semibold">Todos</div>
       <div className="flex gap-2 py-2">
         <input
@@ -146,7 +152,11 @@ const Todos = () => {
             className="flex pl-2 rounded-lg justify-between bg-slate-300 items-center "
           >
             <div className="flex gap-2">
-              <input type="checkbox" checked={todos['completed']}/>
+              <input
+                type="checkbox"
+                checked={todos["completed"]}
+                onChange={() => {}}
+              />
               <div>{todos["desc"]}</div>
             </div>
             <div className="flex gap-2">

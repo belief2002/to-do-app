@@ -12,6 +12,7 @@
     "axios": "^1.6.7",
     "mongoose": "^8.1.2",
     "next": "14.1.0",
+    "next-auth": "^4.24.6",
     "react": "^18",
     "react-dom": "^18",
     "uuid": "^9.0.1"

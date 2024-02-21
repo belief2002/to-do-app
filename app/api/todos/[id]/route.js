@@ -2,6 +2,25 @@ import { connect } from "@/dbConfig/db";
 import { NextRequest, NextResponse } from "next/server";
 import Todo from "@/models/todoSchema";
 
+
+
+// export async function GET(request) {
+//   try {
+//     const path = request.nextUrl.pathname.split("/");
+//     const email = path[path.length - 1];
+//     console.log("email: " + path);
+//     const todos = await Todo.find({email:email});
+//     console.log("Api Todo",todos);
+//     return NextResponse.json({ msg: "success", success: true, todos });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { msg: "Issue happened: " + error },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+
 export async function DELETE(request) {
   try {
     //getting id from request

@@ -14,6 +14,10 @@ const TodoSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  email:{
+    type:String,
+    required:true
+  }
 });
 
 const Todo = mongoose.models.todos || mongoose.model("todos", TodoSchema);
