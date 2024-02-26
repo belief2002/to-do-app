@@ -78,7 +78,7 @@ const Todos = () => {
     });    
   }
   async function addTodoKey(e){
-    console.log(e.key);
+    // console.log(e.key);
     if(e.key=="Enter"){
       setInputText("");
       addTodo();
@@ -86,9 +86,8 @@ const Todos = () => {
 
   }
   async function updateTodoKey(e){
-    console.log(e.key);
+    // console.log(e.key);
     if(e.key=="Enter"){
-      // setInputText("");
       updateTodo();
     }
 
