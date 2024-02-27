@@ -99,7 +99,7 @@ const Todos = () => {
     return (
       <div
         id={editTodoInfo.id}
-        className="flex flex-col items-center  pt-8 gap-8 h-full"
+        className="flex flex-col items-center  pt-8 gap-8 h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800"
       >
         <div className=" text-2xl">Edit Todo</div>
         <div className="flex gap-2 ">
